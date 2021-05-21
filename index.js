@@ -43,19 +43,46 @@ let redis = require('redis');
 let dotenv = require('dotenv');
 dotenv.config();
 
-        var redisEndpoint = process.env.REDIS_ENDPOINT ;
-        // Get the port and host from the endpoint string
-        var PORT =  redisEndpoint.slice(-4);
+var redisEndpoint = process.env.REDIS_ENDPOINT ;
+// Get the port and host from the endpoint string
+var PORT =  redisEndpoint.slice(-4);
         
-        var HOST = redisEndpoint.slice(0,-5);
+var HOST = redisEndpoint.slice(0,-5);
 
-        //create a new Redis client 
-        var client = redis.createClient(PORT, HOST);
+//create a new Redis client 
+var client = redis.createClient(PORT, HOST);
         
-        // Connect to Redis endpoint 
-        client.on('connect', function () {
-            console.log('Connected to Redis node: ');
+// Connect to Redis endpoint 
+client.on('connect', function () {
+    console.log('Connected to Redis node: ');
+    });
+
+
+client.TIME(function(err, reply) {
+    console.log("Before set operation",reply);
+    });
+
+client.set('framework', 'AngularJS', function(err, reply) {
+    console.log(reply);
+    });
+
+client.TIME(function(err, reply) {
+        console.log("After set operation",reply);
         });
+
+client.TIME(function(err, reply) {
+        console.log("Before get operation",reply);
+        });
+
+client.get('framework', function(err, reply) {
+    console.log(reply);
+    });
+
+client.TIME(function(err, reply) {
+        console.log("After get operation",reply);
+        });
+
+
 
 
 
